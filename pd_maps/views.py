@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.conf import settings
 import os
 
-import xlrd, csv
+import csv
 
 from django.templatetags.static import static
 
@@ -15,17 +15,7 @@ def get_maps(request):
 def toNumber(str_num):
     return int(str_num.replace(',', ''))
 
-def plot(request,name):
-
-    # meta_data = {}
-    # meta_data["title"] = "Sector Distribution of " + org_type_full_name.title() + "s"
-    # meta_data["x_title"] = "Sector names"
-    # meta_data["y_title"] = "% of " + org_type_short_name + "s working in the sector"
-    # meta_data["type"] = "column"
-    #
-    #
-    # # Sending meta data and main data in a dict
-    # chart_data = {'meta_data': meta_data, 'data': perc_list }
+def plot(request, name):
 
     # file_path = static('CalPERS_Actuarial_Report_Data_01232018.xlsx')
     # file_path = 'http://' + request.get_host() + settings.STATIC_URL + 'CalPERS_Actuarial_Report_Data_01232018.xlsx'
