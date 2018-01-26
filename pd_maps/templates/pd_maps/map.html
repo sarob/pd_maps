@@ -1,36 +1,14 @@
 <!DOCTYPE html>
 <html>
+{% load static %}
   <head>
     <title>CalPERS</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
-    <style>
-      html, body {
-        height: 95%;
-        width: 90%;
-        padding: 0;
-        margin: 0;
-      }
-
-      #map {
-        height: 60%;
-        width: 40%;
-        padding: 0px;
-        margin: 0% 20% 0% 20%;
-      }
-
-      .typeahead {
-        margin-left: 235px !important;
-      }
-
-      .dropdown-menu {
-        font-size: 17px !important;
-      }
-    </style>
-
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
   </head>
   <body>
     <h3 style="margin-left:30px;">CalPERS</h3>
@@ -56,144 +34,11 @@
         </tr>
       </table>
 
-
     <!-- include cartodb.js library -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-
-    <script>
-
-      function get_entities(){
-        $.getJSON('/get_entities/', function (entity_list){
-          main(entity_list)
-        });
-
-      }
-
-
-      function main(entity_list) {
-
-        // cartodb.createVis('map', 'http://documentation.cartodb.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json', {
-        cartodb.createVis($('#map'), 'http://joffemd.carto.com/api/v2/viz/51ee3b2d-7fbc-4cbd-bed2-a99cd49c76a7/viz.json', {
-        // cartodb.createVis('map', 'http://joffemd.carto.com/api/v2/viz/7f7809bd-bef5-473d-bead-290b06c2da62/viz.json', {
-            shareable: false,
-            // title: true,
-            // description: true,
-            search: false,
-            tiles_loader: true,
-            cartodb_logo: false,
-            center_lat: 38,
-            center_lon: -122,
-            zoom: 7,
-
-        })
-        .done(function(vis, layers) {
-          // layer 0 is the base layer, layer 1 is cartodb layer
-          // setInteraction is disabled by default
-          console.log(vis.getLayers());
-          sql_statement = 'SELECT * FROM prod_california where name in (' + entity_list + ')'
-          console.log(sql_statement)
-          layers[1].getSubLayer(0).setSQL(sql_statement);
-          // layers[1].getSubLayer(0).setSQL('SELECT * FROM prod_california where alt_type_slug=\'City\'');
-          // layers[1].getSubLayer(0).setSQL('SELECT * FROM prod_california where name in \
-          //             (\'CITY OF RICHMOND\', \
-          //              \'CITY OF SAN JOSE\', \
-          //              \'CITY OF SUNNYVALE\', \
-          //              \'CITY OF MILPITAS\', \
-          //              \'CITY OF CUPERTINO\', \
-          //              \'CITY OF PALO ALTO\', \
-          //              \'CITY OF FRESNO\', \
-          //              \'CITY OF SACREMENTO\', \
-          //              \'CITY OF SANTA ROSA\', \
-          //              \'CITY OF SANTA CRUZ\' \
-          //               )');
-          layers[1].setInteraction(true);
-          layers[1].getSubLayer(0).set({ 'interactivity': ['name'] });
-          // layers[1].on('featureOver', function(e, latlng, pos, data) {
-          layers[1].on('featureOver', function(e, latlng, pos, data) {
-          });
-          layers[1].on('featureClick', function(e, latlng, pos, data) {
-            cartodb.log.log(e, latlng, pos, data);
-            render_chart(data.name);
-          });
-          // add the tooltip show when hover on the point
-          vis.addOverlay({
-             type: 'tooltip',
-             layer: layers[1].getSubLayer(0),
-             position: 'top|center',
-             fields: [{ name: 'name' }],
-             template: '<p>{% templatetag openvariable %}name{% templatetag closevariable %}</p>', // not using curly brackets directly // https://stackoverflow.com/a/7772192/1526703
-           });
-          // you can get the native map to work with it
-          // var map = vis.getNativeMap();
-          // now, perform any operations you need
-          // map.setZoom(8);
-          // map.panTo([49, -123]);
-        })
-        .error(function(err) {
-          console.log(err);
-        });
-
-        $('#city-heading').hide();
-        $('#chart_1').hide();
-        $('#chart_2').hide();
-      }
-
-      window.onload = get_entities;
-
-    </script>
     <script src="https://code.highcharts.com/highcharts.js" ></script>
     <script src="https://code.highcharts.com/highcharts-3d.js" ></script>
-    <script>
-    function render_chart(name) {
-        console.log('name is', name);
-        // $(window).scrollTop(elem.offset().top).scrollLeft(elem.offset().left);
-        $('html,body').animate({ scrollTop: 9999 }, 'slow');
-        $('#chart_1').show();
-        $('#chart_2').show();
-        $('#city-heading').html(name);
-        $('#city-heading').show();
-
-         $.getJSON('/plot/'.concat(name), function (chart_data){
-           draw_chart(chart_data, name);
-         });
-       }
-      function draw_chart(chart_data){
-
-         $('#chart_1').highcharts({
-            chart: {type: "column", height: 400, options3d:{enabled:'true', alpha: "10", beta: "10", depth: "80", viewDistance: "20"}},
-            title: {text: name + "Projected CalPERS Contributions"},
-            // type: category' specifies that x axis in the data is actually the category names
-            xAxis: {title: {text: "Year"}, type: "category"},
-            yAxis: {title: {text: "Projected Contributions ($)"}},
-            series: [{ showInLegend: false, data: chart_data.projections }],
-            credits: {enabled: false}
-            });
-          $('#chart_2').highcharts({
-             chart: {type: "column", height: 400, options3d:{enabled:'true', alpha: "10", beta: "10", depth: "80", viewDistance: "20"}}, // "alpha": "15", "beta": "15", "depth": "50", "viewDistance": "25"}},
-             title: {text: "Projected CalPERS Assets and Liabilities"},
-             // type: category' specifies that x axis in the data is actually the category names
-            //  xAxis: {title: {text: "Year"}, type: "category"},
-             xAxis: {categories: ['Assets', 'Liabilities']},
-             yAxis: {title: {text: "Projected Contributions ($)"}},
-             series: [
-               {showInLegend: true, name: 'Unfunded Liabilities', data: chart_data.unfunded_liabilities},
-               {showInLegend: true, name: 'Others', data: chart_data.others}
-             ],
-             plotOptions: { column: { stacking: 'normal'} },
-             credits: {enabled: false}
-             });
-           }
-
-    </script>
-    <script src="http://www.saathire.com/static/build/js/bootstrap3-typeahead.min.js"></script>
-    <script>
-    $('#city-selector').typeahead({
-        source: ['City of Richmond', 'City of Arvin', 'City of Woodland'],
-        afterSelect: function (item) {
-          render_chart();
-        },
-    });
-
-    </script>
+    <script src="{% static 'bootstrap3-typeahead.min.js' %}"></script>
+    <script src="{% static 'custom.js' %}"></script>
   </body>
 </html>
