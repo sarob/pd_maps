@@ -86,7 +86,7 @@ function render_chart(name) {
         // type: category' specifies that x axis in the data is actually the category names
         xAxis: {title: {text: "Year"}, type: "category"},
         yAxis: {title: {text: "Projected Contributions ($)"}},
-        series: [{ showInLegend: false, data: chart_data.projections }],
+        series: [{ showInLegend: false, name: 'Contributions', data: chart_data.projections }],
         credits: {enabled: false}
         });
       $('#chart_2').highcharts({
