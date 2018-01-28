@@ -40,8 +40,10 @@ def plot(request, name):
     others = []
 
     with open(file_path) as input_file:
-        reader = csv.reader(input_file, delimiter='\t')
+        # reader = csv.reader(input_file, delimiter='\t')
+        reader = csv.reader(input_file)
         for i,row in enumerate(reader):
+            print (row[0])
             if row[0] == name:
                 projections.append(['2017-18',toNumber(row[9])])
                 projections.append(['2018-19',toNumber(row[10])])
@@ -65,7 +67,8 @@ def get_entities(request):
     entity_list = []
     file_path = os.path.dirname(os.path.realpath(__file__)) +  '/static/CalPERS_Actuarial_Report_Data_01232018.csv'
     with open(file_path) as input_file:
-        reader = csv.reader(input_file, delimiter='\t')
+        # reader = csv.reader(input_file, delimiter='\t')
+        reader = csv.reader(input_file)
         for i,row in enumerate(reader):
                 if i==0 or row[0]=="":
                     continue
