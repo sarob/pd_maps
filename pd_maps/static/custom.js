@@ -62,24 +62,25 @@ function main(entity_string) {
   });
 
   //hide the placeholders for charts
-  $('#city-heading').hide();
-  $('#chart_1').hide();
-  $('#chart_2').hide();
+  // $('#city-heading').hide();
+  // $('#chart_1').hide();
+  // $('#chart_2').hide();
 }
 
 
 function render_chart(name) {
-    console.log('name is', name);
-    // $(window).scrollTop(elem.offset().top).scrollLeft(elem.offset().left);
-    $('html,body').animate({ scrollTop: 9999 }, 'slow');
-    $('#chart_1').show();
-    $('#chart_2').show();
-    $('#city-heading').html(name);
-    $('#city-heading').show();
-
-     $.getJSON('/plot/'.concat(name), function (chart_data){
-       draw_chart(chart_data, name);
-     });
+    window.location.href = '/charts/'+ name + '/';
+    // console.log('name is', name);
+    // // $(window).scrollTop(elem.offset().top).scrollLeft(elem.offset().left);
+    // // $('html,body').animate({ scrollTop: 9999 }, 'slow');
+    // // $('#chart_1').show();
+    // // $('#chart_2').show();
+    // $('#city-heading').html(name);
+    // // $('#city-heading').show();
+    //
+    //  $.getJSON('/plot/'.concat(name), function (chart_data){
+    //    draw_chart(chart_data, name);
+    //  });
    }
 
 function draw_chart(chart_data){

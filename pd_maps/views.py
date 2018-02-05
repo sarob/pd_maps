@@ -8,6 +8,9 @@ import csv
 def get_maps(request):
     return render(request, 'pd_maps/map.html')
 
+def get_charts(request, name):
+        return render(request, 'pd_maps/charts.html')
+
 def toNumber(str_num):
     return int(str_num.replace(',', ''))
 

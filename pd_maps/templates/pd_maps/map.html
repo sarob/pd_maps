@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html>
+{% extends "pd_maps/base.html" %}
 {% load static %}
-  <head>
-    <title>CalPERS</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="{% static 'custom.css' %}" rel="stylesheet">
-  </head>
-  <body>
-    <h3 style="margin-left:30px;">CalPERS Contribution Rates for Local Agencies</h3>
+{% comment %}<link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />{% endcomment %}
+{% block additionalcss %}
+  <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+{% endblock %}
+
+{% block content %}
       <br/><br/>
       <form method="get" action="." >
             <div class="row">
@@ -24,22 +18,10 @@
        </form>
        <br/><br/>
       <div id="map" class="text-center"></div>
-      <br/><br/><br/><br/>
-      <h3 id="city-heading" style="margin-left:30px;"></h3>
-      <br/><br/>
-      <table>
-        <tr>
-          <td></td>
-          <td><div id="chart_1" style="width:500px; height: 400px; margin-left:0%"></div></td>
-          <td><div id="chart_2" style="width:500px; height: 400px;"></div></td>
-        </tr>
-      </table>
+{% endblock %}
 
+{% block additionaljs %}
     <!-- include cartodb.js library -->
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js" ></script>
-    <script src="https://code.highcharts.com/highcharts-3d.js" ></script>
-    <script src="{% static 'bootstrap3-typeahead.min.js' %}"></script>
     <script src="{% static 'custom.js' %}"></script>
-  </body>
-</html>
+{% endblock %}
