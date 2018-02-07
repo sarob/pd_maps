@@ -4,25 +4,24 @@ from django.http import JsonResponse
 
 import os
 import csv
+import json
 
 def get_maps(request):
     return render(request, 'pd_maps/map.html')
 
 def get_charts(request, name):
-        return render(request, 'pd_maps/charts.html')
+        return render(request, 'pd_maps/charts.html', {'chart_data': json.dumps(get_chart_data(name))})
 
 def toNumber(str_num):
     return int(str_num.replace(',', ''))
 
-def plot(request, name):
-    file_path = os.path.dirname(os.path.realpath(__file__)) +  '/static/CalPERS_Actuarial_Report_Data_01232018.csv'
+def get_chart_data(name):
+    file_path = os.path.dirname(os.path.realpath(__file__)) +  '/static/CalPERS_Actuarial_Report_Data_01232018_With_Best_and_Worst.csv'
     print (file_path)
 
-    # Fetch the data from xlsx (still keeping this code around, just in case we need it in future)
-
+    # Fetch the data from xlsx (still keeping this code around, just in case we need it in the future)
     # workbook = xlrd.open_workbook(file_path)
     # sheet = workbook.sheet_by_name('AgencyTotals')
-
     # for row_index in range(sheet.nrows):
     #     if sheet.cell(row_index, 0).value == 'CITY OF RICHMOND':
     #         chart_data.append(['2017-18',sheet.cell(row_index, 9).value])
@@ -41,6 +40,10 @@ def plot(request, name):
     projections = []
     unfunded_liabilities = []
     others = []
+    best_cases = []
+    worst_cases = []
+
+    years = ['2017-18','2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24','2024-25']
 
     with open(file_path) as input_file:
         # reader = csv.reader(input_file, delimiter='\t')
@@ -48,21 +51,29 @@ def plot(request, name):
         for i,row in enumerate(reader):
             print (row[0])
             if row[0] == name:
-                projections.append(['2017-18',toNumber(row[9])])
-                projections.append(['2018-19',toNumber(row[10])])
-                projections.append(['2019-20',toNumber(row[11])])
-                projections.append(['2020-21',toNumber(row[12])])
-                projections.append(['2021-22',toNumber(row[13])])
-                projections.append(['2022-23',toNumber(row[14])])
-                projections.append(['2023-24',toNumber(row[15])])
-                projections.append(['2024-25',toNumber(row[16])])
+                for i in range(len(years)-1):
+                    print ('i is', i)
+                    print ('years[i] is ', years[i])
+                    projections.append([years[i], toNumber(row[9+i])])
+                    # equiv to:
+                    # projections.append(['2017-18',toNumber(row[9])])
+                    # projections.append(['2018-19',toNumber(row[10])])
+                    # ..
+                    if years[i] in ['2019-20', '2020-21', '2021-22', '2022-23']:
+                        best_cases.append([years[i],toNumber(row[16+i])])
+                        worst_cases.append([years[i], toNumber(row[21+i])])
+                    else:
+                        best_cases.append([years[i],0])
+                        worst_cases.append([years[i], 0])
 
-                unfunded_liabilities = [toNumber(row[8]),0]
-                others = [toNumber(row[7]),toNumber(row[6])]
 
-        chart_data = {'projections':projections, 'unfunded_liabilities': unfunded_liabilities, 'others': others}
+                    unfunded_liabilities = [toNumber(row[8]),0]
+                    others = [toNumber(row[7]),toNumber(row[6])]
 
-    return JsonResponse(chart_data, safe=False)
+        chart_data = {"name": name, "projections":projections, "best_cases": best_cases, "worst_cases":worst_cases, "unfunded_liabilities": unfunded_liabilities, "others": others}
+
+    return chart_data
+    # return JsonResponse(chart_data, safe=False)
 
 # fetch the entities that we want to show on the map and use in the typeahead
 def get_entities(request):

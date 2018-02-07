@@ -2,8 +2,9 @@
 {% load static %}
 {% block content %}
       <br/><br/><br/>
-      <h3 id="city-heading" style="margin-left:30px;"></h3>
-      <br/><br/>
+        <h3 id="agency_heading" class="pull-left"></h3>
+        <button id="toggle_scenarios" type="button" class="btn btn-primary">Show other scenarios</button>
+      <br/><br/>  <br/><br/>
       <table>
         <tr>
           <td></td>
@@ -17,4 +18,10 @@
   <script src="https://code.highcharts.com/highcharts.js" ></script>
   <script src="https://code.highcharts.com/highcharts-3d.js" ></script>
   <script src="{% static 'charts.js' %}"></script>
+  {# using inline js so we can use django template tags #}
+  <script>$(document).ready(function() {
+      var chart_data_json = JSON.parse('{{ chart_data|escapejs }}');
+      render_charts(chart_data_json);
+  });
+  </script>
 {% endblock %}

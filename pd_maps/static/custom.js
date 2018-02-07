@@ -60,31 +60,14 @@ function main(entity_string) {
   .error(function(err) {
     console.log(err);
   });
-
-  //hide the placeholders for charts
-  // $('#city-heading').hide();
-  // $('#chart_1').hide();
-  // $('#chart_2').hide();
 }
 
 
 function render_chart(name) {
     window.location.href = '/charts/'+ name + '/';
-    // console.log('name is', name);
-    // // $(window).scrollTop(elem.offset().top).scrollLeft(elem.offset().left);
-    // // $('html,body').animate({ scrollTop: 9999 }, 'slow');
-    // // $('#chart_1').show();
-    // // $('#chart_2').show();
-    // $('#city-heading').html(name);
-    // // $('#city-heading').show();
-    //
-    //  $.getJSON('/plot/'.concat(name), function (chart_data){
-    //    draw_chart(chart_data, name);
-    //  });
-   }
+}
 
-function draw_chart(chart_data){
-
+function draw_chart(chart_data) {
    $('#chart_1').highcharts({
       chart: {type: "column", height: 400, options3d:{enabled:'true', alpha: "10", beta: "10", depth: "80", viewDistance: "20"}},
       title: {text: name + "Projected CalPERS Contributions"},
@@ -107,7 +90,7 @@ function draw_chart(chart_data){
        plotOptions: { column: { stacking: 'normal'} },
        credits: {enabled: false}
        });
-     }
+}
 
 function initialize_typeahead(entity_list) {
  $('#city-selector').typeahead({

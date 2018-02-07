@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^maps/',views.get_maps, name='get_maps'),
     url(r'^charts/(?P<name>[a-zA-Z%0-9\-_. ]+)/$',views.get_charts, name='render_charts'),
     url(r'^get_entities/',views.get_entities, name='get_entities'),
-    url(r'^plot/(?P<name>[a-zA-Z%0-9\-_. ]+)$', views.plot, name='plot'),
+    # url(r'^plot/(?P<name>[a-zA-Z%0-9\-_. ]+)$', views.plot, name='plot'),
 ]

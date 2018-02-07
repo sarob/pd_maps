@@ -19,3 +19,11 @@ html, body {
 .dropdown-menu {
   font-size: 17px !important;
 }
+
+#toggle_scenarios {
+  margin: 20px 20px;
+}
+
+#agency_heading {
+  margin-left:30px;
+}
