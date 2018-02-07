@@ -2,8 +2,8 @@
 {% load static %}
 {% block content %}
       <br/><br/><br/>
-        <h3 id="agency_heading" class="pull-left"></h3>
-        <button id="toggle_scenarios" type="button" class="btn btn-primary">Show other scenarios</button>
+      <h3 id="agency_heading" class="pull-left"></h3>
+      <button id="toggle_scenarios" type="button" class="btn btn-primary">Show other scenarios</button>
       <br/><br/>  <br/><br/>
       <table>
         <tr>
@@ -12,6 +12,9 @@
           <td><div id="chart_2" style="width:500px; height: 400px;"></div></td>
         </tr>
       </table>
+      <br/><br/><br/><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="{% url 'get_maps' %}">Back to search</a>
 {% endblock %}
 
 {% block additionaljs %}
