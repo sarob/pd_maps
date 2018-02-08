@@ -51,7 +51,7 @@ def get_chart_data(name):
         for i,row in enumerate(reader):
             print (row[0])
             if row[0] == name:
-                for i in range(len(years)-1):
+                for i in range(len(years)):
                     print ('i is', i)
                     print ('years[i] is ', years[i])
                     projections.append([years[i], toNumber(row[9+i])])
@@ -60,17 +60,21 @@ def get_chart_data(name):
                     # projections.append(['2018-19',toNumber(row[10])])
                     # ..
                     if years[i] in ['2019-20', '2020-21', '2021-22', '2022-23']:
-                        best_cases.append([years[i],toNumber(row[16+i])])
-                        worst_cases.append([years[i], toNumber(row[21+i])])
+                        #best_cases.append([years[i],toNumber(row[16+i])])
+                        best_cases.append([years[i],0])
+                        worst_cases.append([years[i],toNumber(row[21+i])])
                     else:
                         best_cases.append([years[i],0])
                         worst_cases.append([years[i], 0])
 
-
                     unfunded_liabilities = [toNumber(row[8]),0]
+                    total_liabilities = [toNumber(row[6]),0]
+                    assets = [toNumber(row[7]),0]
+                    funded_liabilities = [toNumber(row[7]),0]
+		  
                     others = [toNumber(row[7]),toNumber(row[6])]
 
-        chart_data = {"name": name, "projections":projections, "best_cases": best_cases, "worst_cases":worst_cases, "unfunded_liabilities": unfunded_liabilities, "others": others}
+        chart_data = {"name": name, "projections":projections, "best_cases": best_cases, "worst_cases":worst_cases, "unfunded_liabilities": unfunded_liabilities, "total_liabilities": total_liabilities, "assets": assets, "others": others}
 
     return chart_data
     # return JsonResponse(chart_data, safe=False)
