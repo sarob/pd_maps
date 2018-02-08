@@ -17,7 +17,6 @@ def toNumber(str_num):
 
 def get_chart_data(name):
     file_path = os.path.dirname(os.path.realpath(__file__)) +  '/static/CalPERS_Actuarial_Report_Data_01232018_With_Best_and_Worst.csv'
-    print (file_path)
 
     # Fetch the data from xlsx (still keeping this code around, just in case we need it in the future)
     # workbook = xlrd.open_workbook(file_path)
@@ -49,11 +48,8 @@ def get_chart_data(name):
         # reader = csv.reader(input_file, delimiter='\t')
         reader = csv.reader(input_file)
         for i,row in enumerate(reader):
-            print (row[0])
             if row[0] == name:
                 for i in range(len(years)):
-                    print ('i is', i)
-                    print ('years[i] is ', years[i])
                     projections.append([years[i], toNumber(row[9+i])])
                     # equiv to:
                     # projections.append(['2017-18',toNumber(row[9])])
@@ -71,7 +67,7 @@ def get_chart_data(name):
                     total_liabilities = [toNumber(row[6]),0]
                     assets = [toNumber(row[7]),0]
                     funded_liabilities = [toNumber(row[7]),0]
-		  
+
                     others = [toNumber(row[7]),toNumber(row[6])]
 
         chart_data = {"name": name, "projections":projections, "best_cases": best_cases, "worst_cases":worst_cases, "unfunded_liabilities": unfunded_liabilities, "total_liabilities": total_liabilities, "assets": assets, "others": others}
