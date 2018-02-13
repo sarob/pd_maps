@@ -39,9 +39,9 @@ function render_assets_liabilities(chart_data){
      xAxis: {categories: ['Assets', 'Liabilities']},
      yAxis: {title: {text: "Amounts ($)"}},
      series: [
-       {showInLegend: true, color:'#EEEEEE', name: 'Unfunded Liabilities', data: [200000000, 0]},
-       {showInLegend: true, color:'#000000', name: 'Assets', data: [300000000, 0]},
-       {showInLegend: true, color:'#FF0000', name: 'Total Liabilities', data: [0, 500000000]}
+       {showInLegend: true, color:'#EEEEEE', name: 'Unfunded Liabilities', data: [chart_data.unfunded_liabilities, 0]},
+       {showInLegend: true, color:'#000000', name: 'Assets', data: [chart_data..assets, 0]},
+       {showInLegend: true, color:'#FF0000', name: 'Total Liabilities', data: [0, chart_data.total_liabilities]}
      ],
      plotOptions: { column: { stacking: 'normal'} },
      credits: {enabled: false}
