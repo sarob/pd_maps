@@ -38,6 +38,8 @@ def get_chart_data(name):
 
     projections = []
     unfunded_liabilities = []
+    total_liabilities = []
+    assets = []
     others = []
     best_cases = []
     worst_cases = []
