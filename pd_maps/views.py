@@ -65,12 +65,12 @@ def get_chart_data(name):
                         best_cases.append([years[i],0])
                         worst_cases.append([years[i], 0])
 
-                    unfunded_liabilities = [toNumber(row[8]),0]
-                    total_liabilities = [toNumber(row[6]),0]
-                    assets = [toNumber(row[7]),0]
-                    funded_liabilities = [toNumber(row[7]),0]
+        unfunded_liabilities = [toNumber(row[8]),0]
+        total_liabilities = [0,toNumber(row[6])]
+        assets = [toNumber(row[7]),0]
+        funded_liabilities = [toNumber(row[7]),0]
 
-                    others = [toNumber(row[7]),toNumber(row[6])]
+        others = [toNumber(row[7]),toNumber(row[6])]
 
         chart_data = {"name": name, "projections":projections, "best_cases": best_cases, "worst_cases":worst_cases, "unfunded_liabilities": unfunded_liabilities, "total_liabilities": total_liabilities, "assets": assets, "others": others}
 
